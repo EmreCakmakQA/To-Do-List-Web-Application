@@ -13,6 +13,6 @@ public class PersonDto {
 	private String name;
 	
 	private List<TodoDto> todos = new ArrayList<>();
-	
+	// This will return JSON
 
 }
