@@ -48,6 +48,12 @@ public class TodoController {
 			// ok - 200
 		}
 		
+		// read one
+		@GetMapping("/read/{id}")
+		public ResponseEntity<TodoDto> readOne(@PathVariable Long id) {
+			return ResponseEntity.ok(this.service.readOne(id));
+		}
+		
 		// update
 		@PutMapping("/update/{id}")
 		public ResponseEntity<TodoDto> update(@PathVariable Long id, @RequestBody TodoDto todoDto) {

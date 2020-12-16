@@ -19,9 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import com.example.demo.dto.BookDto;
 import com.example.demo.dto.TodoDto;
-import com.example.demo.persistence.domain.Book;
 import com.example.demo.persistence.domain.Todo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Sql(scripts = { "classpath:todo-schema.sql",
 		"classpath:todo-data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles(profiles = "dev")
-public class BookControllerIntegrationTest {
+public class PersonControllerIntegrationTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -46,12 +44,12 @@ public class BookControllerIntegrationTest {
 		return this.mapper.map(todo, TodoDto.class);
 	}
 
-	private final Todo TEST_TODO_1 = new Todo(1L, "Buy eggs", false);
+	private final Todo TEST_PERSON_1 = new Todo(1L, "Buy eggs", false);
 	private final Todo TEST_TODO_2 = new Todo(2L, "Wash dishes", false);
 	private final Todo TEST_TODO_3 = new Todo(3L, "Buy cake", false);
 	private final Todo TEST_TODO_4 = new Todo(4L, "Finish project",false);
 
-	// I also want to create a list of cars that i can use later
+	// I also want to create a list of todos that i can use later
 	private final List<Todo> LISTOFTODOS = List.of(TEST_TODO_1, TEST_TODO_2, TEST_TODO_3, TEST_TODO_4);
 	private final String URI = "/todo";
 
@@ -65,7 +63,7 @@ public class BookControllerIntegrationTest {
 
 		ResultMatcher checkStatus = status().isCreated();
 
-		BookDto testSavedDTO = mapToDTO(new Book("Harry Potter", "JK Rowling", "JK", 2000, 300));
+		TodoDto testSavedDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
 		testSavedDTO.setId(5L);
 		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
 
