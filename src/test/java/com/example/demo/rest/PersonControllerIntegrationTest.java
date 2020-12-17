@@ -56,15 +56,15 @@ public class PersonControllerIntegrationTest {
 	// Create test
 	@Test
 	void createTest() throws Exception {
-		PersonDto testDTO = mapToDTO(new Person(1L, "Emre"));
+		PersonDto testDTO = mapToDTO(new Person("Emre"));
 		String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
 
 		RequestBuilder request = post(URI + "/create").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
 
 		ResultMatcher checkStatus = status().isCreated();
 
-		PersonDto testSavedDTO = mapToDTO(new Person(1L, "Emre"));
-		testSavedDTO.setId(1L);
+		PersonDto testSavedDTO = mapToDTO(new Person("Emre"));
+		testSavedDTO.setId(5L);
 		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
 
 		ResultMatcher checkBody = content().json(testSavedDTOAsJSON);
@@ -74,5 +74,7 @@ public class PersonControllerIntegrationTest {
 //		this.mvc.perform(post(URI + "/create").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON))
 //				.andExpect(status().isCreated()).andExpect(content().json(testSavedDTOAsJSON));
 	}
+	
+	
 
 }

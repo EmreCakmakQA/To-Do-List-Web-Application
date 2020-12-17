@@ -27,6 +27,8 @@ public class Todo {
 	
 	@ManyToOne
 	private Person person;
+	
+	
 
 	public Todo(Long id, String title, Boolean isComplete) {
 		super();
@@ -40,6 +42,8 @@ public class Todo {
 		this.name = title;
 		this.isComplete = isComplete;
 	}
+	
+	
 	
 	
 }
