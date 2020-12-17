@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import com.example.demo.dto.TodoDto;
-import com.example.demo.persistence.domain.Todo;
+import com.example.demo.dto.PersonDto;
+import com.example.demo.persistence.domain.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -40,30 +40,30 @@ public class PersonControllerIntegrationTest {
 	@Autowired
 	private ModelMapper mapper;
 
-	private TodoDto mapToDTO(Todo todo) {
-		return this.mapper.map(todo, TodoDto.class);
+	private PersonDto mapToDTO(Person person) {
+		return this.mapper.map(person, PersonDto.class);
 	}
 
-	private final Todo TEST_PERSON_1 = new Todo(1L, "Buy eggs", false);
-	private final Todo TEST_TODO_2 = new Todo(2L, "Wash dishes", false);
-	private final Todo TEST_TODO_3 = new Todo(3L, "Buy cake", false);
-	private final Todo TEST_TODO_4 = new Todo(4L, "Finish project",false);
+	private final Person TEST_PERSON_1 = new Person(1L, "Emre");
+	private final Person TEST_PERSON_2 = new Person(2L, "Nouha");
+	private final Person TEST_PERSON_3 = new Person(3L, "Troy");
+	private final Person TEST_PERSON_4 = new Person(4L, "Lawrence");
 
 	// I also want to create a list of todos that i can use later
-	private final List<Todo> LISTOFTODOS = List.of(TEST_TODO_1, TEST_TODO_2, TEST_TODO_3, TEST_TODO_4);
-	private final String URI = "/todo";
+	private final List<Person> LISTOFPEOPLE = List.of(TEST_PERSON_1, TEST_PERSON_2, TEST_PERSON_3, TEST_PERSON_4);
+	private final String URI = "/person";
 
 	// Create test
 	@Test
 	void createTest() throws Exception {
-		TodoDto testDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
+		PersonDto testDTO = mapToDTO(new Person(1L, "Emre"));
 		String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
 
 		RequestBuilder request = post(URI + "/create").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
 
 		ResultMatcher checkStatus = status().isCreated();
 
-		TodoDto testSavedDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
+		PersonDto testSavedDTO = mapToDTO(new Person(1L, "Emre"));
 		testSavedDTO.setId(5L);
 		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
 
