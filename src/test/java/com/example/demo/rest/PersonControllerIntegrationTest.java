@@ -64,7 +64,7 @@ public class PersonControllerIntegrationTest {
 		ResultMatcher checkStatus = status().isCreated();
 
 		PersonDto testSavedDTO = mapToDTO(new Person(1L, "Emre"));
-		testSavedDTO.setId(5L);
+		testSavedDTO.setId(1L);
 		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
 
 		ResultMatcher checkBody = content().json(testSavedDTOAsJSON);
