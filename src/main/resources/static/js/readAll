@@ -1,0 +1,229 @@
+
+
+fetch('http://localhost:9092/person/read/')
+    .then(
+        function (response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                return;
+            }
+
+            // Examine the text in the response
+            response.json().then(function (data) {
+                console.log("");
+
+                // let table = document.querySelector("table");
+                // let keys = Object.keys(data[0]); // Grabs the keys within the object
+
+                // createTableHead(table, keys);
+                // createTableBody(table, data);
+                displayData(data)
+                //status(data);
+            });
+        }
+    )
+    .catch(function (err) {
+        console.log('Fetch Error :-S', err);
+    });
+
+function displayData(object) {
+    for (let data of object) {
+
+        let todos = document.createElement("ul");
+
+
+        for (let i = 0; i < data.todos.length; i++) {
+            console.log(data.todos[i].name)
+
+            let todoList = document.createElement("li")
+            todoList.innerText = data.todos[i].name;
+            todos.appendChild(todoList);
+
+
+            //todos.innerText += "\n" + data.todos[i].name;
+        }
+
+
+        // Create card
+        let card = document.querySelector("div.card");
+
+        //todoStatus.setAttribute("class", "card-text");
+
+        let cardBody = document.createElement("div");
+        cardBody.setAttribute("class", "card-body");
+
+        let personId = document.createElement("h6");
+        personId.setAttribute("class", "card-title");
+
+        let personName = document.createElement("h4");
+        personName.setAttribute("class", "card-text")
+
+
+        // View/Update and Del Button
+        let viewBtn = document.createElement("a");
+        viewBtn.setAttribute("class", "btn btn-warning")
+
+        let updatePersonBtn = document.createElement("a");
+        updatePersonBtn.setAttribute("class", "btn btn-warning")
+
+        let delBtn = document.createElement("button");
+        delBtn.setAttribute("class", "btn btn-danger")
+
+        viewBtn.innerText = "Up. Todo"
+        updatePersonBtn.innerText = "Up. Person"
+        delBtn.innerText = "Delete Person"
+
+
+
+
+        // Insert data into elements
+        personId.innerText = data.id;
+        personName.innerText = data.name;
+        //todoStatus = data.isComplete;
+
+        // Append elements into card div
+        cardBody.appendChild(personId)
+        cardBody.appendChild(personName)
+        cardBody.appendChild(todos);
+        cardBody.appendChild(viewBtn);
+        cardBody.appendChild(updatePersonBtn)
+        cardBody.appendChild(delBtn);
+        card.appendChild(cardBody)
+
+        // View/Update
+        viewBtn.href = "readOne.html?id=" + data.id
+
+        // Delete
+        delBtn.onclick = function () {
+            deleteByid(data.id); return false;
+        }
+
+
+    }
+}
+
+
+document
+    .querySelector("form.viewRecord")
+    .addEventListener("submit", function (stop) {
+        stop.preventDefault();
+        let formElements = document.querySelector("form.viewRecord").elements;
+        console.log(formElements)
+
+
+        let name = formElements["name"].value;
+        let personName = formElements["personName"].value;
+        // let isComplete = formElements["isComplete"].value;
+
+        let data = {
+
+            "name": name,
+            "isComplete": false,
+            "person": {
+                "id": personName
+            }
+        }
+        console.log("Data to post", data)
+
+
+        sendData(data)
+    });
+
+
+function sendData(data) {
+    fetch("http://localhost:9092/todo/create", {
+        method: 'post',
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(function (data) {
+            console.log('Request succeeded with JSON response', data);
+            console.log("created!");
+            location.reload();
+        })
+        .catch(function (error) {
+            console.log('Request failed', error);
+        });
+}
+
+
+
+// function status(data) {
+//     for (let status of data) {
+//         let div = document.querySelector("div.card")
+//         let para = document.createElement("p");
+
+//         status.isComplete == false ? para.innerText = "not complete ❌" : para.innerText = "completed ✔️";
+
+//         div.append(para);
+//     }
+// }
+
+
+
+// function createTableHead(table, data) {
+//     let tableHead = table.createTHead();
+//     let row = tableHead.insertRow();
+//     for (let keys of data) {
+//         let th = document.createElement("th");
+//         let text = document.createTextNode(keys);
+//         th.appendChild(text);
+//         row.appendChild(th)
+//     }
+// }
+
+
+// function createTableBody(table, data) {
+//     console.log(data)
+//     for (let book of data) {
+//         let row = table.insertRow();
+//         for (let values in book) {
+//             let cell = row.insertCell();
+//             let text = document.createTextNode(book[values]);
+//             cell.appendChild(text);
+//         }
+//         // Create and Append the View Button
+//         let newCell = row.insertCell();
+//         let myViewButton = document.createElement("a");
+//         let myButtonValue = document.createTextNode("View/Update")
+//         myViewButton.className = "btn btn-warning";
+//         myViewButton.href = "readOne.html?id=" + book.id
+//         myViewButton.appendChild(myButtonValue);
+//         newCell.appendChild(myViewButton)
+
+//         // Create and Button The Delete Button
+//         let newCellDelete = row.insertCell();
+//         let myDelButton = document.createElement("button");
+//         let myButtonValue1 = document.createTextNode("Delete")
+//         myDelButton.className = "btn btn-success";
+//         myDelButton.appendChild(myButtonValue1);
+//         newCellDelete.appendChild(myDelButton)
+//         myDelButton.onclick = function () {
+//             deleteByid(book.id); return false;
+//         };
+//     }
+// }
+
+function deleteByid(id) {
+    fetch("http://localhost:9092/person/delete/" + id, {
+        method: 'delete',
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    }).then(function (response) {
+        if (response.status !== 200) {
+            location.reload();
+            return;
+        }
+
+        response.json().then(function (response) {
+            console.log("Expecting error code to be 204 when deleting: " + response.status);
+
+        });
+    })
+
+
+}
