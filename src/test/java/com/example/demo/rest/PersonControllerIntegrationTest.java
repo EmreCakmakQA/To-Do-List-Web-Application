@@ -104,7 +104,7 @@ public class PersonControllerIntegrationTest {
 	}
 	
 
-	// Read All Test
+	 //Read All Test
 	@Test
 	void ReadAll() throws Exception {
 		Person person = new Person("Emre");
@@ -121,15 +121,56 @@ public class PersonControllerIntegrationTest {
 		String expectedAsJSON = this.jsonifier.writeValueAsString(expected);
 		ResultMatcher checkBody = content().json(expectedAsJSON);
 		
-		this.mvc.perform(request).andExpect(checkBody).andExpect(checkBody);
+		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
 		
 
 	}
 	
+//	@Test
+//	void ReadAll() throws Exception {
+////		List<Todo> todos = new ArrayList<>();
+//		PersonDto testDTO = mapToDTO(new Person("Emre"));
+//		PersonDto testDTO2 = mapToDTO(new Person("Nouha"));
+//		PersonDto testDTO3 = mapToDTO(new Person("Troy"));
+//		PersonDto testDTO4 = mapToDTO(new Person("Lawrence"));
+//		List<PersonDto> listDTO = new ArrayList<>();
+//		listDTO.add(testDTO);
+//		listDTO.add(testDTO2);
+//		listDTO.add(testDTO3);
+//		listDTO.add(testDTO4);
+//		
+//		String testDTOAsJSON = this.jsonifier.writeValueAsString(listDTO);
+//
+//		RequestBuilder request = get(URI + "/read").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
+//
+//		ResultMatcher checkStatus = status().isOk();
+//
+//		PersonDto testSavedDTO = mapToDTO(new Person("Emre"));
+//		PersonDto testSavedDTO2 = mapToDTO(new Person("Nouha"));
+//		PersonDto testSavedDTO3 = mapToDTO(new Person("Troy"));
+//		PersonDto testSavedDTO4 = mapToDTO(new Person("Lawrence"));
+//		List<PersonDto> listSavedDTO = new ArrayList<>();
+//		testSavedDTO.setId(1L);
+//		testSavedDTO2.setId(2L);
+//		testSavedDTO3.setId(3L);
+//		testSavedDTO4.setId(4L);
+//		listSavedDTO.add(testSavedDTO);
+//		listSavedDTO.add(testSavedDTO2);
+//		listSavedDTO.add(testSavedDTO3);
+//		listSavedDTO.add(testSavedDTO4);
+//		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(listSavedDTO);
+//
+//		ResultMatcher checkBody = content().json(testSavedDTOAsJSON);
+//
+//		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
+//		
+//
+//	}
+	
 	// Update Test
 		@Test
 		void updateTest() throws Exception {
-			List<Person> people = new ArrayList<>();
+//			List<Person> people = new ArrayList<>();
 			PersonDto personDto = mapToDTO(new Person("Emre"));
 			String testDTOAsJSON = this.jsonifier.writeValueAsString(personDto);
 		
