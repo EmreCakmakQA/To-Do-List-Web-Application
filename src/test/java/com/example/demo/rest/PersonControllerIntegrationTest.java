@@ -1,9 +1,11 @@
 package com.example.demo.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.example.demo.dto.PersonDto;
+import com.example.demo.dto.TodoDto;
 import com.example.demo.persistence.domain.Person;
+import com.example.demo.persistence.domain.Todo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -75,6 +79,23 @@ public class PersonControllerIntegrationTest {
 //				.andExpect(status().isCreated()).andExpect(content().json(testSavedDTOAsJSON));
 	}
 	
+	@Test
+	void updateTest() throws Exception {
+		List<Person> people = new ArrayList<>();
+		TodoDto testDto = mapToDTO(new Todo(1L, "Buy eggs", false));
+		String testDTOAsJSON = this.jsonifier.writeValueAsString(testDto);
 	
+		RequestBuilder request = put(URI + "/update/1").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
+		
+		ResultMatcher checkStatus = status().isAccepted();
+		
+		TodoDto testSavedDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
+		testSavedDTO.setId(1L);
+		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
+		
+		ResultMatcher checkBody = content().json(testDTOAsJSON);
+		
+		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
+	}
 
 }
