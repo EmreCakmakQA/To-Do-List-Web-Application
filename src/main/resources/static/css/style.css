@@ -1,0 +1,82 @@
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    text-transform: capitalize;
+    background-color: #2f353d;
+    padding: 100px;
+    
+}
+
+
+.btn {
+    border-radius: 20px;
+}
+
+#card{
+    margin: 30px 50px;
+    border-radius: 25px;
+    border: 5px white solid;
+    padding: 20px;
+    background-color: #454e69;
+    color: white;
+}
+
+#createForm{
+    margin: 30px 80px 80px 80px;
+    padding: 20px;
+    background-color: #454e69;
+    border-radius: 15px;
+    color: white;
+    border: 5px white solid;
+}
+
+#createFormPeople{
+    margin: 30px 80px 80px 80px;
+    padding: 20px;
+    background-color: #454e69;
+    border-radius: 15px;
+    color: white;
+    border: 5px white solid;
+}
+
+
+h1{
+    color: white;
+    text-align: center;
+}
+
+.btn-warning{
+    background-color: #7f8272;
+    color: white;
+    border: 1px white solid;
+    margin: 0px 10px;
+}
+
+form {
+    color: white;
+}
+
+.todo{
+    border: 1px white solid;
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+#personInput{
+    visibility: hidden;
+}
+
+#listOfTodos{
+    background-color: #2f353d;
+    border: 1px white solid;
+    border-radius: 15px;
+    padding-bottom: 30px;
+    margin: 20px;
+}
+
+#tasks {
+       
+    padding: 10px;
+    margin: 5px;
+}

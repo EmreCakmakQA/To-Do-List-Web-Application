@@ -9,45 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Read one</title>
+    <title>Read Todo</title>
 </head>
 
 <div class="container">
-    <!-- <br>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Menu</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item ">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="readAll.html">View All Todos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="readAllLibrary.html">View All People</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="findByName.html">Find Todo By Name</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="findLibraryByName.html">Find Person By Name</a>
-                </li> 
-    <li class="nav-item">
-        <a class="nav-link" href="create.html">Create A New Todo</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="createLibrary.html">Create A New Person</a>
-    </li>
-    </ul>
-</div>
-</nav>
-<br> -->
 
     <div id="success"></div>
     <form method="post" class="viewRecord">
@@ -60,10 +25,11 @@
             <input type="text" value="" class="form-control" id="name">
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Status:</label>
+            <label for="exampleInputEmail1">Status (False = Incomplete, True = Complete):</label>
             <input type="text" value="" class="form-control" id="isComplete">
+
         </div>
-        <div class="form-group">
+        <div class="form-group" id="personInput">
             <label for="exampleInputEmail1">Person:</label>
             <input type="text" value="" class="form-control" id="person_id">
         </div>
@@ -76,7 +42,7 @@
 </div>
 
 <body>
-    <script src="../js/readOne.js"></script>
+    <script src="../js/readTodo.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

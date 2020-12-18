@@ -21,7 +21,7 @@ import com.example.demo.service.PersonService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/person") // this is to further define the path
+@RequestMapping("/person")
 public class PersonController {
 	
 	private PersonService service;
@@ -67,14 +67,11 @@ public class PersonController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<PersonDto> delete(@PathVariable Long id) {
 		return this.service.delete(id) ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-		// no_content - if deleted successfully then should return nothing
+		
 			: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		// if the record isnt found!
+		
 	}
 		
-//	@GetMapping("findByName/{name}")
-//	public ResponseEntity<List<BookDto>> findByName(@PathVariable String name) {
-//		return ResponseEntity.ok(this.service.findByName(name));
-//	}
+
 
 }

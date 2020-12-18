@@ -1,11 +1,14 @@
 package com.example.demo.rest;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -22,14 +25,13 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.example.demo.dto.PersonDto;
-import com.example.demo.dto.TodoDto;
 import com.example.demo.persistence.domain.Person;
 import com.example.demo.persistence.domain.Todo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-// sql runs in order schema followed by data file - JH dont make the mistake
+
 @Sql(scripts = { "classpath:todo-schema.sql",
 		"classpath:todo-data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles(profiles = "dev")
@@ -53,7 +55,7 @@ public class PersonControllerIntegrationTest {
 	private final Person TEST_PERSON_3 = new Person(3L, "Troy");
 	private final Person TEST_PERSON_4 = new Person(4L, "Lawrence");
 
-	// I also want to create a list of todos that i can use later
+	private final List<Todo> todos = Collections.emptyList();
 	private final List<Person> LISTOFPEOPLE = List.of(TEST_PERSON_1, TEST_PERSON_2, TEST_PERSON_3, TEST_PERSON_4);
 	private final String URI = "/person";
 
@@ -75,27 +77,81 @@ public class PersonControllerIntegrationTest {
 
 		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
 
-//		this.mvc.perform(post(URI + "/create").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON))
-//				.andExpect(status().isCreated()).andExpect(content().json(testSavedDTOAsJSON));
-	}
+
+	}	
 	
+	
+	// Read One Test
 	@Test
-	void updateTest() throws Exception {
-		List<Person> people = new ArrayList<>();
-		TodoDto testDto = mapToDTO(new Todo(1L, "Buy eggs", false));
-		String testDTOAsJSON = this.jsonifier.writeValueAsString(testDto);
-	
-		RequestBuilder request = put(URI + "/update/1").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
+	void ReadOne() throws Exception {
+		Person person = new Person("Emre");
+		person.setTodos(todos);
+		PersonDto testDTO = mapToDTO(person);
 		
-		ResultMatcher checkStatus = status().isAccepted();
+		String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
 		
-		TodoDto testSavedDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
-		testSavedDTO.setId(1L);
-		String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
+		RequestBuilder request = get(URI + "/read/1").contentType(MediaType.APPLICATION_JSON);
 		
-		ResultMatcher checkBody = content().json(testDTOAsJSON);
+		ResultMatcher checkStatus = status().isOk();
+		person.setId(1L);
+		PersonDto expected = mapToDTO(person);
+		String expectedAsJSON = this.jsonifier.writeValueAsString(expected);
+		ResultMatcher checkBody = content().json(expectedAsJSON);
 		
-		this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
+		this.mvc.perform(request).andExpect(checkBody).andExpect(checkBody);
+		
+
 	}
+	
+
+	// Read All Test
+	@Test
+	void ReadAll() throws Exception {
+		Person person = new Person("Emre");
+		person.setTodos(todos);
+		PersonDto testDTO = mapToDTO(person);
+		
+		String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
+		
+		RequestBuilder request = get(URI + "/read").contentType(MediaType.APPLICATION_JSON);
+		
+		ResultMatcher checkStatus = status().isOk();
+		person.setId(1L);
+		PersonDto expected = mapToDTO(person);
+		String expectedAsJSON = this.jsonifier.writeValueAsString(expected);
+		ResultMatcher checkBody = content().json(expectedAsJSON);
+		
+		this.mvc.perform(request).andExpect(checkBody).andExpect(checkBody);
+		
+
+	}
+	
+	// Update Test
+		@Test
+		void updateTest() throws Exception {
+			List<Person> people = new ArrayList<>();
+			PersonDto personDto = mapToDTO(new Person("Emre"));
+			String testDTOAsJSON = this.jsonifier.writeValueAsString(personDto);
+		
+			RequestBuilder request = put(URI + "/update/1").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
+			
+			ResultMatcher checkStatus = status().isAccepted();
+			
+			PersonDto testSavedDTO = mapToDTO(new Person("Emre"));
+			testSavedDTO.setId(1L);
+			String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
+			
+			ResultMatcher checkBody = content().json(testDTOAsJSON);
+			
+			this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
+		}
+	
+	// Delete Test
+		@Test
+		void deleteTest() throws Exception {
+			RequestBuilder request = delete(URI + "/delete/1").contentType(MediaType.APPLICATION_JSON);
+			ResultMatcher checkStatus = status().isNoContent();
+			this.mvc.perform(request).andExpect(checkStatus);
+		}
 
 }

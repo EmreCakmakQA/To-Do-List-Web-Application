@@ -1,6 +1,7 @@
 package com.example.demo.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -23,7 +24,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import com.example.demo.dto.PersonDto;
 import com.example.demo.dto.TodoDto;
+import com.example.demo.persistence.domain.Person;
 import com.example.demo.persistence.domain.Todo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -53,11 +56,11 @@ public class TodoControllerIntegrationTest {
 	private final Todo TEST_TODO_3 = new Todo(3L, "Buy cake", false);
 	private final Todo TEST_TODO_4 = new Todo(4L, "Finish project",false);
 
-	// I also want to create a list of todos that i can use later
+	
 	private final List<Todo> LISTOFTODOS = List.of(TEST_TODO_1, TEST_TODO_2, TEST_TODO_3, TEST_TODO_4);
 	private final String URI = "/todo";
 
-	// Create test
+	// Create Test
 	@Test
 	void createTest() throws Exception {
 	    TodoDto testDTO = mapToDTO(new Todo("Buy eggs", false));
@@ -76,6 +79,54 @@ public class TodoControllerIntegrationTest {
 	    this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
 	}
 	
+	
+//	// Read One Test
+//		@Test
+//		void ReadOne() throws Exception {
+//			Todo todo = new Todo("Emre", false);
+//			todo.setTodos(LISTOFTODOS);
+//			PersonDto testDTO = mapToDTO();
+//			
+//			String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
+//			
+//			RequestBuilder request = get(URI + "/read/1").contentType(MediaType.APPLICATION_JSON);
+//			
+//			ResultMatcher checkStatus = status().isOk();
+//			person.setId(1L);
+//			PersonDto expected = mapToDTO(person);
+//			String expectedAsJSON = this.jsonifier.writeValueAsString(expected);
+//			ResultMatcher checkBody = content().json(expectedAsJSON);
+//			
+//			this.mvc.perform(request).andExpect(checkBody).andExpect(checkBody);
+//			
+//
+//		}
+//		
+//
+//		// Read All Test
+//		@Test
+//		void ReadAll() throws Exception {
+//			Person person = new Person("Emre");
+//			person.setTodos(todos);
+//			PersonDto testDTO = mapToDTO(person);
+//			
+//			String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
+//			
+//			RequestBuilder request = get(URI + "/read").contentType(MediaType.APPLICATION_JSON);
+//			
+//			ResultMatcher checkStatus = status().isOk();
+//			person.setId(1L);
+//			PersonDto expected = mapToDTO(person);
+//			String expectedAsJSON = this.jsonifier.writeValueAsString(expected);
+//			ResultMatcher checkBody = content().json(expectedAsJSON);
+//			
+//			this.mvc.perform(request).andExpect(checkBody).andExpect(checkBody);
+//			
+//
+//		}
+	
+	
+	// Update Test
 	@Test
 	void updateTest() throws Exception {
 		List<Todo> todos = new ArrayList<>();
