@@ -15,6 +15,5 @@ public class AppConfig {
 	public ModelMapper mapper() {
 		return new ModelMapper();
 	}
-	// modelMapper - job is to make object mapping easy
-	// by automatically determining how one object maps to another object.
+	
 }

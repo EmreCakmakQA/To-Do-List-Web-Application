@@ -81,26 +81,27 @@ public class TodoControllerIntegrationTest {
 	
 	
 //	// Read One Test
-//		@Test
-//		void ReadOne() throws Exception {
-//			Todo todo = new Todo("Emre", false);
-//			todo.setTodos(LISTOFTODOS);
-//			PersonDto testDTO = mapToDTO();
-//			
-//			String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
-//			
-//			RequestBuilder request = get(URI + "/read/1").contentType(MediaType.APPLICATION_JSON);
-//			
-//			ResultMatcher checkStatus = status().isOk();
-//			person.setId(1L);
-//			PersonDto expected = mapToDTO(person);
-//			String expectedAsJSON = this.jsonifier.writeValueAsString(expected);
-//			ResultMatcher checkBody = content().json(expectedAsJSON);
-//			
-//			this.mvc.perform(request).andExpect(checkBody).andExpect(checkBody);
-//			
-//
-//		}
+		@Test
+		void ReadOne() throws Exception {
+			TodoDto testDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
+			String testDTOAsJSON = this.jsonifier.writeValueAsString(testDTO);
+			
+			RequestBuilder request = get(URI + "/read/1").contentType(MediaType.APPLICATION_JSON).content(testDTOAsJSON);
+			
+			ResultMatcher checkStatus = status().isOk();
+			
+			TodoDto testSavedDTO = mapToDTO(new Todo(1L, "Buy eggs", false));
+			testSavedDTO.setId(1L);
+			
+			
+			
+			String testSavedDTOAsJSON = this.jsonifier.writeValueAsString(testSavedDTO);
+			ResultMatcher checkBody = content().json(testSavedDTOAsJSON);
+			
+			this.mvc.perform(request).andExpect(checkStatus).andExpect(checkBody);
+			
+
+		}
 //		
 //
 //		// Read All Test
