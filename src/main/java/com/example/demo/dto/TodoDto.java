@@ -10,6 +10,6 @@ public class TodoDto {
 	private Long id;
 	private String name;
 	private Boolean isComplete;
-	// this will spit out JSON		
+	// this will return JSON		
 		
 }
